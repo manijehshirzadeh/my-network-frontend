@@ -1,13 +1,16 @@
-import PostList from "./components/PostList/PostList";
 import { useState, createContext, useEffect } from "react";
 import { Routes, Route } from "react-router-dom";
+
+import * as authService from "../src/services/authService";
+import * as postService from "./services/postService";
+
 import NavBar from "./components/NavBar/NavBar";
 import Landing from "./components/Landing/Landing";
 import Dashboard from "./components/Dashboard/Dashboard";
 import SignupForm from "./components/SignupForm/SignupForm";
 import SigninForm from "./components/SigninForm/SigninForm";
-import * as authService from "../src/services/authService";
-import * as postService from "./services/postService";
+import PostList from "./components/PostList/PostList";
+import PostDetails from "./components/PostDetails/PostDetails";
 
 export const AuthedUserContext = createContext(null);
 
@@ -17,7 +20,7 @@ const App = () => {
 
   useEffect(() => {
     if (user) fetchAllPosts();
-  }, [user]);
+  });
   const fetchAllPosts = async () => {
     const allPosts = await postService.index();
 
@@ -37,6 +40,7 @@ const App = () => {
             <>
               <Route path="/" element={<Dashboard user={user} />} />
               <Route path="/posts" element={<PostList posts={posts} />} />
+              <Route path="/posts/:id" element={<PostDetails />} />
             </>
           ) : (
             <Route path="/" element={<Landing />} />
