@@ -1,5 +1,6 @@
 import { useParams, useNavigate } from "react-router-dom";
 import { useState, useEffect } from "react";
+import PostEditionDialog from "../PostEditionDialog/PostEditionDialog";
 
 import * as postService from "../../services/postService";
 
@@ -22,11 +23,14 @@ const PostDetails = (props) => {
   const { id } = useParams();
 
   useEffect(() => {
-    const fetchPost = async () => {
-      const post = await postService.show(id);
-      console.log("post", post);
-      setPost(post);
-    };
+    fetchPost();
+  }, [id]);
+
+  const fetchPost = async () => {
+    const post = await postService.show(id);
+    console.log("post", post);
+    setPost(post);
+  };
     fetchPost();
   }, [id]);
 
@@ -70,26 +74,13 @@ const PostDetails = (props) => {
             </Button>
           </Box>
           <Box>
-            <Button
-              size="small"
-              variant="contained"
-              disableElevation
-              color="success"
-            >
-              Edit
-            </Button>
-            <Button
-              size="small"
-              variant="contained"
-              disableElevation
-              color="error"
-              onClick={async () => {
-                await postService.deletePost(post._id);
-                navigate("/posts");
+            <PostEditionDialog
+              post={post}
+              handleSubmit={(editedPost) => {
+                props.handlePostEdit(id, editedPost);
+                fetchPost();
               }}
-            >
-              Delete
-            </Button>
+            />
           </Box>
         </Box>
       </CardActions>

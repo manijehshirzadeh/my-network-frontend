@@ -1,11 +1,15 @@
+import { Typography } from "@mui/material";
+
 const Landing = () => {
   return (
     <main>
-      <h1>Hello, you are on the landing page for visitors.</h1>
-      <h3>
-        If you sign up for a new account, you will have the ability to sign in
-        and see your super secret dashboard.
-      </h3>
+      <Typography variant="h2">Welcome to My Network</Typography>
+      <Typography variant="h4">
+        My Network is a platform for connecting with colleagues, friends, and
+        new contacts. Easily stay updated with an engaging feed, showcase your
+        skills, join groups, attend events, and discover new opportunities. Join
+        My Network today and enhance your networking experience!
+      </Typography>
     </main>
   );
 };
