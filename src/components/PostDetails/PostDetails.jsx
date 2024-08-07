@@ -14,12 +14,13 @@ import {
   Card,
   CardActionArea,
   CardContent,
-  CardMedia,
+  CardHeader,
   CardActions,
   Typography,
   IconButton,
   Badge,
   Box,
+  Avatar,
 } from "@mui/material";
 
 const PostDetails = (props) => {
@@ -45,28 +46,39 @@ const PostDetails = (props) => {
   };
 
   if (post === null) {
-    return <main>Loading...</main>;
+    return <>Loading...</>;
   }
 
   return (
     <Card sx={{ maxWidth: "100%" }} key={post._id} to={`/posts/${post._id}`}>
       <CardActionArea>
-        <CardMedia
-          component="img"
-          height="140"
-          image={post.image || "https://placehold.co/400x300.png"}
-          alt="..."
+        <CardHeader
+          avatar={
+            <Avatar>{post.owner.username.substring(0, 1).toUpperCase()}</Avatar>
+          }
+          title={post.owner.username}
+          subheader={post.createdAt}
         />
+        <Box height="400px">
+          <img
+            style={{ width: "100%", height: "100%", objectFit: "contain" }}
+            src={post.image || "https://placehold.co/400x400.png"}
+            alt="a balloon"
+          />
+        </Box>
         <CardContent>
           <Typography>{post.content}</Typography>
         </CardContent>
       </CardActionArea>
       <CardActions>
-        <Box gap={1} display={"flex"} justifyContent="space-between">
+        <Box
+          display="flex"
+          justifyContent="space-between"
+          flexGrow={1}
+          alignItems="flex-end"
+        >
           <Box>
-            <CardActions
-              sx={{ display: "flex", justifyContent: "space-between" }}
-            >
+            <CardActions sx={{ pl: 0 }}>
               {post.likedBy.some(
                 (liker) => liker.username === user.username
               ) ? (
@@ -101,18 +113,21 @@ const PostDetails = (props) => {
               />
             </CardActions>
           </Box>
-          <Box>
-            <PostEditionDialog
-              post={post}
-              handleSubmit={(editedPost) => {
-                props.handlePostEdit(id, editedPost);
-                fetchPost();
-              }}
-            />
-            <PostDeletionDialog
-              handleDelete={() => props.handlePostDelete(post._id)}
-            />
-          </Box>
+
+          {post.owner._id === user._id && (
+            <Box>
+              <PostEditionDialog
+                post={post}
+                handleSubmit={(editedPost) => {
+                  props.handlePostEdit(id, editedPost);
+                  fetchPost();
+                }}
+              />
+              <PostDeletionDialog
+                handleDelete={() => props.handlePostDelete(post._id)}
+              />
+            </Box>
+          )}
         </Box>
       </CardActions>
     </Card>

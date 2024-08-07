@@ -4,7 +4,7 @@ import { styled } from "@mui/material/styles";
 import Dialog from "@mui/material/Dialog";
 import DialogTitle from "@mui/material/DialogTitle";
 import DialogActions from "@mui/material/DialogActions";
-import IconButton from "@mui/material/IconButton";
+import { IconButton, Chip } from "@mui/material";
 import CloseIcon from "@mui/icons-material/Close";
 
 const BootstrapDialog = styled(Dialog)(({ theme }) => ({
@@ -36,15 +36,13 @@ export default function PostDeletionDialog(props) {
 
   return (
     <>
-      <Button
+      <Chip
+        sx={{ mb: 2.5, ml: 1 }}
         size="small"
-        variant="contained"
-        disableElevation
         color="error"
         onClick={handleClickOpen}
-      >
-        Delete
-      </Button>
+        label="Delete"
+      />
       <BootstrapDialog
         fullWidth
         maxWidth="sm"

@@ -1,14 +1,9 @@
 import { useState } from "react";
 import Button from "@mui/material/Button";
 import { styled } from "@mui/material/styles";
-import Dialog from "@mui/material/Dialog";
-// import DialogTitle from "@mui/material/DialogTitle";
-import DialogContent from "@mui/material/DialogContent";
-import DialogActions from "@mui/material/DialogActions";
+import { Dialog, Chip, DialogContent, DialogActions } from "@mui/material";
+
 import Textarea from "@mui/joy/Textarea";
-import FormGroup from "@mui/material/FormGroup";
-import FormControlLabel from "@mui/material/FormControlLabel";
-import Switch from "@mui/material/Switch";
 
 const BootstrapDialog = styled(Dialog)(({ theme }) => ({
   "& .MuiDialogContent-root": {
@@ -24,9 +19,6 @@ export default function PostEditionDialog(props) {
 
   const [isPublic, setIsPublic] = useState(props.post.isPublic);
 
-  const handleChange = (event) => {
-    setIsPublic(event.target.checked);
-  };
   const [open, setOpen] = useState(false);
 
   const handleClickOpen = () => {
@@ -52,15 +44,13 @@ export default function PostEditionDialog(props) {
 
   return (
     <>
-      <Button
+      <Chip
         size="small"
-        variant="contained"
-        disableElevation
+        sx={{ mb: 2.5 }}
         color="success"
         onClick={handleClickOpen}
-      >
-        Edit
-      </Button>
+        label="Edit"
+      />
       <BootstrapDialog
         fullWidth
         maxWidth="sm"
@@ -77,19 +67,6 @@ export default function PostEditionDialog(props) {
             value={content}
             onChange={(e) => setContent(e.target.value)}
           />
-          <FormGroup>
-            <FormControlLabel
-              control={
-                <Switch
-                  checked={isPublic}
-                  onChange={handleChange}
-                  inputProps={{ "aria-label": "controlled" }}
-                />
-              }
-              labelPlacement="start"
-              label="Is Public?"
-            />
-          </FormGroup>
         </DialogContent>
         <DialogActions>
           <Button autoFocus onClick={handlePostCreate}>

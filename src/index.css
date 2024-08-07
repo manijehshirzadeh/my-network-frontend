@@ -13,6 +13,11 @@
   -moz-osx-font-smoothing: grayscale;
 }
 
+main {
+  margin: auto;
+  width: 50%;
+}
+
 a {
   font-weight: 500;
   color: #646cff;
@@ -24,7 +29,6 @@ a:hover {
 
 body {
   margin: 0;
-  display: flex;
   place-items: center;
   min-width: 320px;
   min-height: 100vh;
@@ -66,3 +70,17 @@ button:focus-visible {
     background-color: #f9f9f9;
   }
 }
+
+body {
+  background-color: #eceff1;
+  padding: 0;
+  margin: 0;
+}
+
+#mui-link {
+  color: white;
+}
+
+/* #landing-page {
+  background-image: url("/public/network.jpg");
+} */

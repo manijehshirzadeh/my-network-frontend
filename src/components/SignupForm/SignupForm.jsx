@@ -1,14 +1,15 @@
-import { useState } from 'react';
-import { Link, useNavigate } from 'react-router-dom';
-import * as authService from '../../services/authService';
+import { useState } from "react";
+import { Link, useNavigate } from "react-router-dom";
+import * as authService from "../../services/authService";
+import { Box, Button, TextField } from "@mui/material";
 
 const SignupForm = (props) => {
   const navigate = useNavigate();
-  const [message, setMessage] = useState(['']);
+  const [message, setMessage] = useState([""]);
   const [formData, setFormData] = useState({
-    username: '',
-    password: '',
-    passwordConf: '',
+    username: "",
+    password: "",
+    passwordConf: "",
   });
 
   const updateMessage = (msg) => {
@@ -24,7 +25,7 @@ const SignupForm = (props) => {
     try {
       const newUserResponse = await authService.signup(formData);
       props.setUser(newUserResponse.user);
-      navigate('/');
+      navigate("/");
     } catch (err) {
       updateMessage(err.message);
     }
@@ -37,48 +38,70 @@ const SignupForm = (props) => {
   };
 
   return (
-    <main>
+    <Box
+      mt={8}
+      display="flex"
+      flexDirection="column"
+      alignContent="center"
+      justifyContent="center"
+      alignItems={"center"}
+      gap={1}
+    >
       <h1>Sign Up</h1>
       <p>{message}</p>
-      <form onSubmit={handleSubmit}>
-        <div>
-          <label htmlFor="username">Username:</label>
-          <input
-            type="text"
-            id="name"
-            value={username}
-            name="username"
-            onChange={handleChange}
-          />
-        </div>
-        <div>
-          <label htmlFor="password">Password:</label>
-          <input
-            type="password"
-            id="password"
-            value={password}
-            name="password"
-            onChange={handleChange}
-          />
-        </div>
-        <div>
-          <label htmlFor="confirm">Confirm Password:</label>
-          <input
-            type="password"
-            id="confirm"
-            value={passwordConf}
-            name="passwordConf"
-            onChange={handleChange}
-          />
-        </div>
-        <div>
-          <button disabled={isFormInvalid()}>Sign Up</button>
+      <Box component="form" onSubmit={handleSubmit}>
+        <TextField
+          label="Username"
+          variant="outlined"
+          onChange={handleChange}
+          id="name"
+          value={username}
+          name="username"
+          sx={{ backgroundColor: "white", mb: 1 }}
+          fullWidth
+        />
+
+        <TextField
+          id="password"
+          value={password}
+          name="password"
+          onChange={handleChange}
+          label="Password"
+          type="password"
+          autoComplete="off"
+          sx={{ backgroundColor: "white", mb: 1 }}
+          fullWidth
+        />
+
+        <TextField
+          id="confirm-password"
+          label="Confirm Password"
+          type="password"
+          autoComplete="off"
+          sx={{ backgroundColor: "white", mb: 1 }}
+          fullWidth
+          value={passwordConf}
+          name="passwordConf"
+          onChange={handleChange}
+        />
+
+        <Box display="flex" justifyContent="space-between" flexGrow={1}>
           <Link to="/">
-            <button>Cancel</button>
+            <Button color="error" variant="outlined">
+              Cancel
+            </Button>
           </Link>
-        </div>
-      </form>
-    </main>
+          <Button
+            disableElevation
+            variant="contained"
+            disabled={isFormInvalid()}
+            type="submit"
+          >
+            Sign Up
+          </Button>
+        </Box>
+      </Box>
+    </Box>
   );
 };
 

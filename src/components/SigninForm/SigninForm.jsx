@@ -1,13 +1,14 @@
-import { useState } from 'react';
-import { Link, useNavigate } from 'react-router-dom';
-import * as authService from '../../services/authService';
+import { useState } from "react";
+import { Link, useNavigate } from "react-router-dom";
+import * as authService from "../../services/authService";
+import { Box, TextField, Button } from "@mui/material";
 
 const SigninForm = (props) => {
   const navigate = useNavigate();
-  const [message, setMessage] = useState(['']);
+  const [message, setMessage] = useState([""]);
   const [formData, setFormData] = useState({
-    username: '',
-    password: '',
+    username: "",
+    password: "",
   });
 
   const updateMessage = (msg) => {
@@ -15,7 +16,7 @@ const SigninForm = (props) => {
   };
 
   const handleChange = (e) => {
-    updateMessage('');
+    updateMessage("");
     setFormData({ ...formData, [e.target.name]: e.target.value });
   };
 
@@ -25,47 +26,66 @@ const SigninForm = (props) => {
       const user = await authService.signin(formData);
       console.log(user);
       props.setUser(user);
-      navigate('/');
+      navigate("/");
     } catch (err) {
       updateMessage(err.message);
     }
   };
 
   return (
-    <main>
+    <Box
+      mt={8}
+      display="flex"
+      flexDirection="column"
+      alignContent="center"
+      justifyContent="center"
+      alignItems={"center"}
+      gap={1}
+    >
       <h1>Log In</h1>
       <p>{message}</p>
-      <form autoComplete="off" onSubmit={handleSubmit}>
-        <div>
-          <label htmlFor="email">Username:</label>
-          <input
-            type="text"
-            autoComplete="off"
-            id="username"
-            value={formData.username}
-            name="username"
-            onChange={handleChange}
-          />
-        </div>
-        <div>
-          <label htmlFor="password">Password:</label>
-          <input
-            type="password"
-            autoComplete="off"
-            id="password"
-            value={formData.password}
-            name="password"
-            onChange={handleChange}
-          />
-        </div>
-        <div>
-          <button>Log In</button>
+      <Box component="form" onSubmit={handleSubmit}>
+        <TextField
+          label="Username"
+          variant="outlined"
+          onChange={handleChange}
+          id="name"
+          value={formData.username}
+          name="username"
+          sx={{ backgroundColor: "white", mb: 1 }}
+          fullWidth
+          autoComplete="off"
+        />
+
+        <TextField
+          id="password"
+          value={formData.password}
+          name="password"
+          onChange={handleChange}
+          label="Password"
+          type="password"
+          autoComplete="off"
+          sx={{ backgroundColor: "white", mb: 1 }}
+          fullWidth
+        />
+
+        <Box display="flex" justifyContent="space-between" flexGrow={1}>
           <Link to="/">
-            <button>Cancel</button>
+            <Button color="error" variant="outlined">
+              Cancel
+            </Button>
           </Link>
-        </div>
-      </form>
-    </main>
+          <Button
+            type="submit"
+            disableElevation
+            variant="contained"
+            // disabled={isFormInvalid()}
+          >
+            Sign In
+          </Button>
+        </Box>
+      </Box>
+    </Box>
   );
 };
 

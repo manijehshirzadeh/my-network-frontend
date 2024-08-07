@@ -1,16 +1,18 @@
 import { Link } from "react-router-dom";
 import { FavoriteBorder as FavoriteBorderIcon } from "@mui/icons-material";
 import FavoriteIcon from "@mui/icons-material/Favorite";
-import ChatBubbleOutlineIcon from "@mui/icons-material/ChatBubbleOutline";
+
 import {
   Card,
   CardActionArea,
   CardContent,
-  CardMedia,
+  Box,
   CardActions,
   Typography,
   IconButton,
   Badge,
+  CardHeader,
+  Avatar,
 } from "@mui/material";
 import { AuthedUserContext } from "../../App";
 import { useContext } from "react";
@@ -25,22 +27,34 @@ const PostList = (props) => {
   };
 
   const postListItems = props.posts.map((post) => (
-    <Card sx={{ maxWidth: 600 }} key={post._id}>
+    <Card sx={{ marginBottom: 4 }} key={post._id}>
       <CardActionArea>
         <Link
           key={post._id}
           className="card position-relative"
-          style={{ width: "18rem", minHeight: "400px" }}
+          style={{ width: "18rem" }}
           to={"/posts/" + post._id}
         >
-          <CardMedia
-            component="img"
-            height="140"
-            image={post.image || "https://placehold.co/400x300.png"}
-            alt="..."
+          <CardHeader
+            avatar={
+              <Avatar>
+                {post.owner.username.substring(0, 1).toUpperCase()}
+              </Avatar>
+            }
+            title={post.owner.username}
+            subheader={post.createdAt}
           />
+          <Box height="400px">
+            <img
+              style={{ width: "100%", height: "100%", objectFit: "contain" }}
+              src={post.image || "https://placehold.co/400x300.png"}
+              alt="a balloon"
+            />
+          </Box>
           <CardContent>
-            <Typography>{post.content}</Typography>
+            <Typography>
+              {post.content.split(" ").slice(0, 30).join(" ")}...
+            </Typography>
           </CardContent>
         </Link>
       </CardActionArea>
@@ -70,9 +84,6 @@ const PostList = (props) => {
             </Badge>
           </IconButton>
         )}
-        <IconButton>
-          <ChatBubbleOutlineIcon color="secondary" />
-        </IconButton>
         <PostCommentButton
           handleCommentSubmit={props.handleCommentSubmit}
           comments={post.comments}
@@ -81,7 +92,13 @@ const PostList = (props) => {
       </CardActions>
     </Card>
   ));
-  return <main>{postListItems}</main>;
+  return (
+    <>
+      {props.posts.length === 0
+        ? "You haven't created any post yet."
+        : postListItems}
+    </>
+  );
 };
 
 export default PostList;

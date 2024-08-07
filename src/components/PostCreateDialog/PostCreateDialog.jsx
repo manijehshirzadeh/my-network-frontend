@@ -1,18 +1,15 @@
 import { useState } from "react";
 
-import Button from "@mui/material/Button";
+import AddIcon from "@mui/icons-material/Add";
+import { Button, Chip } from "@mui/material";
 import { styled } from "@mui/material/styles";
-import Dialog from "@mui/material/Dialog";
+import { Dialog, Box } from "@mui/material";
 import DialogTitle from "@mui/material/DialogTitle";
 import DialogContent from "@mui/material/DialogContent";
 import DialogActions from "@mui/material/DialogActions";
 import IconButton from "@mui/material/IconButton";
 import CloseIcon from "@mui/icons-material/Close";
 import Textarea from "@mui/joy/Textarea";
-import FormGroup from "@mui/material/FormGroup";
-import FormControlLabel from "@mui/material/FormControlLabel";
-import Switch from "@mui/material/Switch";
-import { Input } from "@mui/material";
 
 const BootstrapDialog = styled(Dialog)(({ theme }) => ({
   "& .MuiDialogContent-root": {
@@ -29,9 +26,6 @@ export default function PostCreateDialog(props) {
   const [isPublic, setIsPublic] = useState(true);
   const [content, setContent] = useState("");
 
-  const handleChange = (event) => {
-    setIsPublic(event.target.checked);
-  };
   const [open, setOpen] = useState(false);
 
   const handleClickOpen = () => {
@@ -84,9 +78,19 @@ export default function PostCreateDialog(props) {
 
   return (
     <>
-      <Button variant="outlined" onClick={handleClickOpen}>
-        Create a New Post
-      </Button>
+      <Box
+        onClick={handleClickOpen}
+        sx={{ height: 60, transform: "translateZ(0px)", flexGrow: 1 }}
+      >
+        <Chip
+          icon={<AddIcon />}
+          sx={{ position: "absolute", right: 16, top: 80 }}
+          size="32"
+          color="primary"
+          onClick={handleClickOpen}
+          label="Create a New Post"
+        />
+      </Box>
       <BootstrapDialog
         fullWidth
         maxWidth="xl"
@@ -111,7 +115,7 @@ export default function PostCreateDialog(props) {
         </IconButton>
         <DialogContent dividers>
           <label className="form-label">Image</label>
-          <Input
+          <input
             onChange={handleImageSelect}
             type="file"
             name="image"
@@ -125,20 +129,6 @@ export default function PostCreateDialog(props) {
             value={content}
             onChange={(e) => setContent(e.target.value)}
           />
-
-          <FormGroup>
-            <FormControlLabel
-              control={
-                <Switch
-                  checked={isPublic}
-                  onChange={handleChange}
-                  inputProps={{ "aria-label": "controlled" }}
-                />
-              }
-              labelPlacement="start"
-              label="Is Public?"
-            />
-          </FormGroup>
         </DialogContent>
         <DialogActions>
           <Button autoFocus onClick={handleClose}>
