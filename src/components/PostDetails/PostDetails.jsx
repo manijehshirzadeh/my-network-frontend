@@ -1,6 +1,12 @@
-import { useParams, useNavigate } from "react-router-dom";
+import { useParams } from "react-router-dom";
 import { useState, useEffect } from "react";
 import PostEditionDialog from "../PostEditionDialog/PostEditionDialog";
+import PostDeletionDialog from "../PostDeletionDialog/PostDeletionDialog";
+import FavoriteIcon from "@mui/icons-material/Favorite";
+import { FavoriteBorder as FavoriteBorderIcon } from "@mui/icons-material";
+import PostCommentButton from "../PostCommentButton/PostCommentButton";
+import { AuthedUserContext } from "../../App";
+import { useContext } from "react";
 
 import * as postService from "../../services/postService";
 
@@ -11,12 +17,13 @@ import {
   CardMedia,
   CardActions,
   Typography,
-  Button,
+  IconButton,
+  Badge,
   Box,
 } from "@mui/material";
 
 const PostDetails = (props) => {
-  const navigate = useNavigate();
+  const user = useContext(AuthedUserContext);
 
   const [post, setPost] = useState(null);
 
@@ -31,10 +38,11 @@ const PostDetails = (props) => {
     console.log("post", post);
     setPost(post);
   };
-    fetchPost();
-  }, [id]);
 
-  console.log("post state:", post);
+  const handleLike = (postId) => {
+    props.handleLikePost(postId);
+    fetchPost();
+  };
 
   if (post === null) {
     return <main>Loading...</main>;
@@ -56,22 +64,42 @@ const PostDetails = (props) => {
       <CardActions>
         <Box gap={1} display={"flex"} justifyContent="space-between">
           <Box>
-            <Button
-              size="small"
-              disableElevation
-              variant="contained"
-              color="primary"
+            <CardActions
+              sx={{ display: "flex", justifyContent: "space-between" }}
             >
-              Comment
-            </Button>
-            <Button
-              size="small"
-              variant="contained"
-              disableElevation
-              color="secondary"
-            >
-              Like
-            </Button>
+              {post.likedBy.some(
+                (liker) => liker.username === user.username
+              ) ? (
+                <IconButton>
+                  <Badge color="secondary" badgeContent={post.likedBy.length}>
+                    <FavoriteIcon
+                      color="error"
+                      onClick={() => {
+                        console.log(post);
+                        handleLike(post._id);
+                      }}
+                    />
+                  </Badge>
+                </IconButton>
+              ) : (
+                <IconButton>
+                  <Badge color="secondary" badgeContent={post.likedBy.length}>
+                    <FavoriteBorderIcon
+                      color="primary"
+                      onClick={() => {
+                        console.log(post);
+                        handleLike(post._id);
+                      }}
+                    />
+                  </Badge>
+                </IconButton>
+              )}
+              <PostCommentButton
+                handleCommentSubmit={props.handleCommentSubmit}
+                comments={post.comments}
+                postId={post._id}
+              />
+            </CardActions>
           </Box>
           <Box>
             <PostEditionDialog
@@ -80,6 +108,9 @@ const PostDetails = (props) => {
                 props.handlePostEdit(id, editedPost);
                 fetchPost();
               }}
+            />
+            <PostDeletionDialog
+              handleDelete={() => props.handlePostDelete(post._id)}
             />
           </Box>
         </Box>

@@ -42,6 +42,20 @@ const create = async (newPost) => {
   }
 };
 
+const deletePost = async (id) => {
+  try {
+    const response = await fetch(BASE_URL + "/" + id, {
+      method: "DELETE",
+      headers: {
+        Authorization: "Bearer " + localStorage.getItem("token"),
+      },
+    });
+    return response.json();
+  } catch (error) {
+    console.error(error);
+  }
+};
+
 const updatePost = async (postId, updatedPost) => {
   try {
     const response = await fetch(BASE_URL + "/" + postId, {
@@ -58,4 +72,35 @@ const updatePost = async (postId, updatedPost) => {
   }
 };
 
-export { index, show, create, updatePost };
+const likePost = async (postId) => {
+  try {
+    const response = await fetch(BASE_URL + "/" + postId + "/like", {
+      method: "PUT",
+      headers: {
+        Authorization: "Bearer " + localStorage.getItem("token"),
+      },
+    });
+    return response.json();
+  } catch (error) {
+    console.error(error);
+  }
+};
+
+const addComment = async (postId, comment) => {
+  try {
+    const response = await fetch(BASE_URL + "/" + postId + "/comments", {
+      method: "POST",
+      headers: {
+        Authorization: "Bearer " + localStorage.getItem("token"),
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({ content: comment }),
+    });
+
+    return response.json();
+  } catch (error) {
+    console.error(error);
+  }
+};
+
+export { index, show, create, deletePost, likePost, addComment, updatePost };

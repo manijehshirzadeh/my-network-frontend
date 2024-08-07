@@ -39,6 +39,24 @@ const App = () => {
     // fetchAllPosts();
     navigate("/posts");
   };
+
+  const handleDeletePost = async (postid) => {
+    await postService.deletePost(postid);
+    const newPosts = posts.filter((listing) => listing._id !== postid);
+    setPosts(newPosts);
+    navigate("/posts");
+  };
+
+  const handleLikePost = async (postid) => {
+    await postService.likePost(postid);
+    fetchAllPosts();
+  };
+
+  const handleCommentSubmit = async (comment, postId) => {
+    await postService.addComment(postId, comment);
+    fetchAllPosts();
+  };
+
   const handlePostEdit = async (postId, updatedPost) => {
     await postService.updatePost(postId, updatedPost);
     fetchAllPosts();
@@ -54,8 +72,25 @@ const App = () => {
             <>
               <Route path="/" element={<Dashboard user={user} />} />
               <Route
+                path="/posts"
+                element={
+                  <PostList
+                    posts={posts}
+                    handleLikePost={handleLikePost}
+                    handleCommentSubmit={handleCommentSubmit}
+                  />
+                }
+              />
+              <Route
                 path="/posts/:id"
-                element={<PostDetails handlePostEdit={handlePostEdit} />}
+                element={
+                  <PostDetails
+                    handlePostDelete={handleDeletePost}
+                    handlePostEdit={handlePostEdit}
+                    handleLikePost={handleLikePost}
+                    handleCommentSubmit={handleCommentSubmit}
+                  />
+                }
               />
             </>
           ) : (
