@@ -24,27 +24,26 @@ const App = () => {
   useEffect(() => {
     if (user) fetchAllPosts();
   }, [user]);
+
   const fetchAllPosts = async () => {
     const allPosts = await postService.index();
-
     setPosts(allPosts);
   };
+
   const handleSignout = () => {
     authService.signout();
     setUser(null);
   };
 
   const handleAddPost = async (newPost) => {
-    const createdPost = await postService.create(newPost);
-    setPosts([createdPost, ...posts]);
-    // fetchAllPosts();
+    await postService.create(newPost);
+    fetchAllPosts();
     navigate("/posts");
   };
 
   const handleDeletePost = async (postid) => {
     await postService.deletePost(postid);
-    const newPosts = posts.filter((listing) => listing._id !== postid);
-    setPosts(newPosts);
+    fetchAllPosts();
     navigate("/posts");
   };
 
@@ -100,6 +99,8 @@ const App = () => {
                   path="/my-posts"
                   element={
                     <PostList
+                      handleLikePost={handleLikePost}
+                      handleCommentSubmit={handleCommentSubmit}
                       posts={posts.filter(
                         (post) => post.owner._id === user._id
                       )}
