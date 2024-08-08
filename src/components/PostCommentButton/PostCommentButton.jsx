@@ -34,7 +34,6 @@ export default function PostCommentButton(props) {
   };
 
   const handleSubmit = async () => {
-    console.log(comment, props.postId);
     await props.handleCommentSubmit(comment, props.postId);
     setComment("");
   };
@@ -56,7 +55,9 @@ export default function PostCommentButton(props) {
                   <Fragment key={_id}>
                     <ListItemButton>
                       <ListItemAvatar>
-                        <Avatar alt="Profile Picture" src={"person"} />
+                        <Avatar>
+                          {owner.username.substring(0, 1).toUpperCase()}
+                        </Avatar>
                       </ListItemAvatar>
                       <ListItemText
                         primary={owner ? owner.username : "Unknown"}

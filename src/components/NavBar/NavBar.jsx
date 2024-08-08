@@ -64,7 +64,11 @@ const NavBar = ({ handleSignout }) => {
                 </MuiLink>
               </Stack>
             ) : (
-              <Stack direction="row" spacing={2}>
+              <Stack
+                direction="row"
+                spacing={2}
+                divider={<Divider orientation="vertical" flexItem />}
+              >
                 <MuiLink
                   sx={{ textAlign: "center" }}
                   id="mui-link"

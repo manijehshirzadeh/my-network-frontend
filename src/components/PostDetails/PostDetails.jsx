@@ -36,7 +36,6 @@ const PostDetails = (props) => {
 
   const fetchPost = async () => {
     const post = await postService.show(id);
-    console.log("post", post);
     setPost(post);
   };
 
@@ -99,7 +98,6 @@ const PostDetails = (props) => {
                     <FavoriteBorderIcon
                       color="primary"
                       onClick={() => {
-                        console.log(post);
                         handleLike(post._id);
                       }}
                     />

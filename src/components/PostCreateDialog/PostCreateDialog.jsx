@@ -23,7 +23,6 @@ const BootstrapDialog = styled(Dialog)(({ theme }) => ({
 export default function PostCreateDialog(props) {
   const [image, setImage] = useState("");
 
-  const [isPublic, setIsPublic] = useState(true);
   const [content, setContent] = useState("");
 
   const [open, setOpen] = useState(false);
@@ -35,7 +34,6 @@ export default function PostCreateDialog(props) {
     setOpen(false);
     setContent("");
     setImage("");
-    setIsPublic(true);
   };
 
   const uploadImage = async (image) => {
@@ -61,14 +59,12 @@ export default function PostCreateDialog(props) {
     try {
       if (image) {
         const data = await uploadImage(image);
-        console.log("data.url", data.url);
-        // setFormData({ ...formData, image: data.url });
         imageUrl = data.url;
       } else {
         setImage("");
       }
-      // formData._id = id;
-      await props.handleSubmit({ content, isPublic, image: imageUrl });
+
+      await props.handleSubmit({ content, image: imageUrl });
       handleClose();
       // setImage("");
     } catch (error) {
@@ -114,7 +110,6 @@ export default function PostCreateDialog(props) {
           <CloseIcon />
         </IconButton>
         <DialogContent dividers>
-          <label className="form-label">Image</label>
           <input
             onChange={handleImageSelect}
             type="file"

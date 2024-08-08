@@ -65,7 +65,6 @@ const PostList = (props) => {
               <FavoriteIcon
                 color="error"
                 onClick={() => {
-                  console.log(post);
                   handleLike(post._id);
                 }}
               />
@@ -77,7 +76,6 @@ const PostList = (props) => {
               <FavoriteBorderIcon
                 color="primary"
                 onClick={() => {
-                  console.log(post);
                   handleLike(post._id);
                 }}
               />
