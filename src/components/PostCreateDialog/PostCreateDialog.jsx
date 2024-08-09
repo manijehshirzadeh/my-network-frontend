@@ -118,7 +118,6 @@ export default function PostCreateDialog(props) {
           />
           <Textarea
             placeholder="Type in here…"
-            defaultValue=""
             minRows={10}
             maxRows={20}
             value={content}

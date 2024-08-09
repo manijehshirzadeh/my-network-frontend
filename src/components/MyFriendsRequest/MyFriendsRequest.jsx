@@ -43,14 +43,13 @@ const MyFriendsRequest = () => {
                 primary={user.username}
                 secondary={`Joined on ${user.createdAt}`}
               />
-              <IconButton sx={{ ml: 1, mt: 1.5 }}>
-                <AddTaskIcon
-                  fontSize="large"
-                  color="primary"
-                  onClick={() => {
-                    handleAddFriend(user._id);
-                  }}
-                />
+              <IconButton
+                onClick={() => {
+                  handleAddFriend(user._id);
+                }}
+                sx={{ ml: 1, mt: 1.5 }}
+              >
+                <AddTaskIcon fontSize="large" color="primary" />
               </IconButton>
             </ListItemButton>
           </Fragment>

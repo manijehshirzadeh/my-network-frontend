@@ -1,7 +1,11 @@
+import { AuthedUserContext } from "../../App";
+import { useContext } from "react";
+
+import PostCommentButton from "../PostCommentButton/PostCommentButton";
+
 import { Link } from "react-router-dom";
 import { FavoriteBorder as FavoriteBorderIcon } from "@mui/icons-material";
 import FavoriteIcon from "@mui/icons-material/Favorite";
-
 import {
   Card,
   CardActionArea,
@@ -14,10 +18,6 @@ import {
   CardHeader,
   Avatar,
 } from "@mui/material";
-import { AuthedUserContext } from "../../App";
-import { useContext } from "react";
-
-import PostCommentButton from "../PostCommentButton/PostCommentButton";
 
 const PostList = (props) => {
   const user = useContext(AuthedUserContext);

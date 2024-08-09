@@ -1,5 +1,8 @@
 import { useState, useEffect, useContext, Fragment } from "react";
+import { AuthedUserContext } from "../../App";
+
 import * as userService from "../../services/userService";
+
 import PersonAddAltIcon from "@mui/icons-material/PersonAddAlt";
 import {
   List,
@@ -9,12 +12,11 @@ import {
   Avatar,
   IconButton,
 } from "@mui/material";
-import { AuthedUserContext } from "../../App";
 
 const UsersList = () => {
   const currentUser = useContext(AuthedUserContext);
-
   const [users, setUsers] = useState([]);
+
   useEffect(() => {
     fetchAllUsers();
   }, []);

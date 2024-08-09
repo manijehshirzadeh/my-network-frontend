@@ -1,15 +1,15 @@
 import { useParams } from "react-router-dom";
 import { useState, useEffect } from "react";
-import PostEditionDialog from "../PostEditionDialog/PostEditionDialog";
-import PostDeletionDialog from "../PostDeletionDialog/PostDeletionDialog";
-import FavoriteIcon from "@mui/icons-material/Favorite";
-import { FavoriteBorder as FavoriteBorderIcon } from "@mui/icons-material";
-import PostCommentButton from "../PostCommentButton/PostCommentButton";
 import { AuthedUserContext } from "../../App";
 import { useContext } from "react";
-
 import * as postService from "../../services/postService";
 
+import PostEditionDialog from "../PostEditionDialog/PostEditionDialog";
+import PostDeletionDialog from "../PostDeletionDialog/PostDeletionDialog";
+import PostCommentButton from "../PostCommentButton/PostCommentButton";
+
+import FavoriteIcon from "@mui/icons-material/Favorite";
+import { FavoriteBorder as FavoriteBorderIcon } from "@mui/icons-material";
 import {
   Card,
   CardActionArea,

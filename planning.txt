@@ -1,0 +1,104 @@
+const userSchema = new mongoose.Schema(
+  {
+    username: {
+      type: String,
+      unique: true,
+      required: true,
+    },
+    hashedPassword: {
+      type: String,
+      required: true,
+    },
+    friends: [
+      {
+        type: mongoose.Schema.Types.ObjectId,
+        ref: "User",
+      },
+    ],
+    friendsRequests: [
+      {
+        type: mongoose.Schema.Types.ObjectId,
+        ref: "User",
+      },
+    ],
+  },
+  {
+    timestamps: true,
+  }
+);
+
+userSchema.set("toJSON", {
+  transform: (document, returnedObject) => {
+    delete returnedObject.hashedPassword;
+  },
+});
+
+
+
+
+const commentSchema = new mongoose.Schema(
+  {
+    content: {
+      type: String,
+      required: true,
+    },
+    owner: {
+      type: mongoose.Schema.Types.ObjectId,
+      ref: "User",
+    },
+  },
+  { timestamps: true }
+);
+
+
+
+
+const postSchema = new mongoose.Schema(
+  {
+    owner: {
+      type: mongoose.Schema.Types.ObjectId,
+      ref: "User",
+    },
+    content: {
+      type: String,
+      required: true,
+    },
+    image: {
+      type: String,
+    },
+    comments: [
+      {
+        type: mongoose.Schema.Types.ObjectId,
+        ref: "Comment",
+      },
+    ],
+    likedBy: [
+      {
+        type: mongoose.Schema.Types.ObjectId,
+        ref: "User",
+      },
+    ],
+  },
+  {
+    timestamps: true,
+  }
+);
+
+
+
+
+HTTP Method       	Controller				            Response	      URI																					  Use Case
+GET	                index and search	            200			        /posts                                        return all posts if no query provided
+POST	              create	    			            200    		      /posts																			  Create a posts
+GET	                show	    			              200			        /posts/:postId																Get a single posts
+PUT	                update	    			            200			        /posts/:postId																Update a posts
+DELETE	            delete					              200			        /posts/:postId																Delete a posts
+POST 				        create comment				        200			        /posts/:postId/comment												add a new comment to a post
+PUT 				        create comment				        200			        /posts/:postId/like												    like a post
+PUT 				        send friend request		        200			        /users/:userId/add												    send a friend request to another user
+PUT 				        accept friend request	        200			        /users/:userId/accept												  accept a friend reqeust from another user
+
+
+
+
+
